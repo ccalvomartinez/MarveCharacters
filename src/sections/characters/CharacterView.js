@@ -1,30 +1,65 @@
 import React, { Component } from 'react'
-import { View, Text, Image,  StyleSheet,  Platform } from 'react-native'
+import { View, Text, Image,  StyleSheet,  Platform, FlatList, ScrollView } from 'react-native'
 
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 
 import { Colors, Fonts } from 'marvel_characters/src/commons'
+import PosterView from '../../widgets/PosterView'
+import * as ComicsActions from 'marvel_characters/src/redux/actions/comics'
+import * as SeriesActions from 'marvel_characters/src/redux/actions/series'
+import * as StoriesActions from 'marvel_characters/src/redux/actions/stories'
 
 class CharacterView extends Component {
+    
+    componentWillMount() {
+        this.props.fetchComicsList(this.props.character)
+        this.props.fetchSeriesList(this.props.character)
+        this.props.fetchStoriesList(this.props.character)
+    }
 
     render() {
         const character = this.props.character
-        console.log('Selecte char', character)
         const image = character.thumbnail ? { uri: character.thumbnail.path +'.' + character.thumbnail.extension } : require('marvel_characters/src/resources/image_not_available.jpg')
         const name = character.name ? character.name : ''
         const description = character.description ? character.description : ''
+        
         return (
         <View style={ styles.container } >
+        <ScrollView>
             <View style={ styles.nameContainer }>
                 <Text style={ styles.name }> { name }</Text>
             </View>
             <Image style={ styles.image } source={ image } resizeMode={'cover'}/>
-            {description ? 
+             {description ? 
             <View style={ styles.descriptionContainer }>
                 <Text style={ styles.description }> { description }</Text>
             </View> : null}
-            
+           <PosterView
+                list= {this.props.list}
+                character = { this.props.character }
+                label={ 'Series' }
+            />
+             <PosterView
+                list= {this.props.comicList}
+                character = { this.props.character }
+                isFetching = { this.props.isFetchingComics }
+                label={ 'Comics' }
+            />
+
+            <PosterView
+                list= {this.props.seriesList}
+                character = { this.props.character }
+                isFetching = { this.props.isFetchingSeries }
+                label={ 'Series' }
+            />
+             <PosterView
+                list= {this.props.storiesList}
+                character = { this.props.character }
+                isFetching = { this.props.isFetchingStories }
+                label={ 'Stories' }
+            />
+            </ScrollView>
         </View>
         )
     }
@@ -34,12 +69,20 @@ const mapStateToProps = (state) => {
     
         return {
             character: state.characters.item,
+            comicList: state.comics.list,
+            isFetchingComics: state.comics.isFetching,
+            seriesList: state.series.list,
+            isFetchingSeries: state.series.isFetching,
+            storiesList: state.stories.list,
+            isFetchingStories: state.stories.isFetching
         }
     }
     
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        
+        fetchComicsList: (character) => { ComicsActions.fetchComicsList(character) },
+        fetchSeriesList: (character) => { SeriesActions.fetchSeriesList(character) },
+        fetchStoriesList: (character) => { StoriesActions.fetchStoriesList(character) }
     }
 }
 
@@ -79,7 +122,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CharacterView)
         description: {
             fontSize: 16,
             fontWeight: 'bold',
-            color: Colors.ACCENT_COLOR,
+            color: 'white',
             ...Platform.select({
                 ios: {
                   

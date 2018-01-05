@@ -8,6 +8,13 @@ function setCharactersFetching(value) {
     }
 }
 
+function setSeatchedText(text) {
+    return {
+        type: types.CHARACTERS_UPDATE_SEARCHED_TEXT,
+        value: text
+    }
+}
+
 function updateCharactersList(value) {
     return {
         type: types.CHARACTERS_FETCH_LIST,
@@ -15,12 +22,14 @@ function updateCharactersList(value) {
     }
 }
 
-export function fetchCharactersList() {
+export function fetchCharactersList(searchText) {
     return (dispatch, getState) => {
-        
+
+        dispatch(setSeatchedText(searchText))
         dispatch(setCharactersFetching(true))
+
         const fetchURL = 'characters'
-        fetch(fetchURL)
+        fetch(fetchURL, searchText)
         .then((data) => {
             dispatch(setCharactersFetching(false))
             const list = data.results

@@ -63,15 +63,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   navBar: {
     backgroundColor: Colors.PRIMARY_COLOR,
-    color: Colors.ACCENT_COLOR,
-    ...Platform.select({
-        ios: {
-            fontFamily: Fonts.IOS_FONT, 
-        },
-        android: {
-            fontFamily: Fonts.ANDROID_FONT,
-        }
-    })
+    
   },
   addButton:{
     padding: 10,

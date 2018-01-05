@@ -3,7 +3,8 @@ import * as types from 'marvel_characters/src/redux/types/characters'
 const initialState = {
     isFetching: false,
     list: [],
-    item: null
+    item: null,
+    searchedText: ''
 }
 
 
@@ -32,6 +33,11 @@ export default function reducer(state = initialState, action = {})
         return {
             ...state,
             isFetching: action.value
+        }
+    case types.CHARACTERS_UPDATE_SEARCHED_TEXT:
+        return {
+            ...state,
+            searchedText: action.value
         }
     default:
         return state

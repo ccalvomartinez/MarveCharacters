@@ -1,10 +1,9 @@
 import marvelApi from 'marvel-comics-api'
 import * as constants from './constans'
 
-export function fetch(url) {
+export function fetch(url, searchText) {
     return new Promise(function(resolve, reject) {
-
-        marvelApi(url, {
+        let data = {
             publicKey: constants.PUBLIC_KEY,
             timeoou: 4000,
             query: {
@@ -13,7 +12,11 @@ export function fetch(url) {
             headers: {
                 Referer: constants.REFERER
             }
-        }, function(err, body){
+        }
+        if ( searchText ) {
+            data.query.nameStartsWith = searchText
+        }
+        marvelApi(url, data, function(err, body){
             if (err) {
                 reject(err)
             } else {

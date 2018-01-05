@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList,  StyleSheet,  ActivityIndicator } from 'react-native'
+import { View, Text, FlatList,  StyleSheet,  ActivityIndicator, TextInput, TouchableOpacity } from 'react-native'
+import { SearchBar } from 'react-native-elements'
+
+
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 
@@ -16,6 +19,10 @@ class CharactersList extends Component {
     onSelect(character) {
         this.props.updateSelectedCharacter(character)
     }
+
+    onSearch(text) {
+        this.props.fetchCharactersList(text)
+    }
     renderItem(item) {
         return (
             <CharacterCell 
@@ -27,24 +34,31 @@ class CharactersList extends Component {
 
     render() {
         const { list, isFetching} = this.props
-        if (isFetching) {
+      
             return(
-                <View style={styles.containerActivityIndicator}>
-                    <ActivityIndicator size="large" color={ Colors.ACCENT_COLOR } animating={ this.props.isFetching } hidesWhenStopped={true} />
-                </View>
-            )
-        } else {
-            return( 
                 <View style={styles.container}>
-                    <FlatList 
-                        data={ this.props.list }
-                        keyExtractor={ (item) => { return item.id } }
-                        renderItem={ ({ item }) => this.renderItem(item) }
-                        numColumns={ 2 }
+                    <SearchBar
+                    noIcon
+                    onChangeText={(text) => { this.onSearch(text) }}
+                    onClearText={() => {}}
+                    placeholder='Search' 
+                    value={ this.props.searchedText }/>
+                    
+                    {isFetching ?
+                        <View style={styles.containerActivityIndicator}>
+                        <ActivityIndicator size="large" color={ Colors.ACCENT_COLOR } animating={ this.props.isFetching } hidesWhenStopped={true} />
+                        </View>
+                    :
+                        <FlatList 
+                            data={ this.props.list }
+                            keyExtractor={ (item) => { return item.id } }
+                            renderItem={ ({ item }) => this.renderItem(item) }
+                            numColumns={ 2 }
                         />
+                    }
                 </View>
             )
-        }
+        
     }
 }
 
@@ -52,14 +66,15 @@ const mapStateToProps = (state) => {
 
     return {
         list: state.characters.list,
-        isFetching: state.characters.isFetching
+        isFetching: state.characters.isFetching,
+        searchedText: state.characters.searchedText
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchCharactersList: () => {
-            dispatch(CharactersActions.fetchCharactersList())
+        fetchCharactersList: (text) => {
+            dispatch(CharactersActions.fetchCharactersList(text))
         },
         updateSelectedCharacter: (character) => {
             dispatch(CharactersActions.updateSelectedCharacter(character))
