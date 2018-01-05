@@ -5,53 +5,65 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { StatusBar, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { Actions, Scene, Router } from 'react-native-router-flux';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import CharactersList from 'marvel_characters/src/sections/characters/CharactersList'
+import CharacterView from 'marvel_characters/src/sections/characters/CharacterView'
 
-export default class App extends Component<{}> {
+//Redux
+// **************************************************
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { Provider, connect } from 'react-redux'
+import thunk from 'redux-thunk'
+
+import * as reducers from './src/redux/reducers'
+const reducer = combineReducers(reducers)
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk)
+)
+// ************************************************
+
+export default class App extends Component {
+
+  componentWillMount() {
+    StatusBar.setBarStyle('light-content')
+  }
+
   render() {
+    console.disableYellowBox = true;
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <Provider store={ store }>
+        <Router>
+          <Scene key="root">
+              <Scene
+              key={ "CharactersList" }
+              component={ CharactersList }
+              navigationBarStyle={styles.navBar}
+              navBarButtonColor={'white'}
+              
+              />
+          </Scene>
+        </Router>
+      </Provider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  navBar: {
+    backgroundColor: 'rgb(36,36,36)'
+  },
+  addButton:{
+    padding: 10,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  addButtonText:{
+    color: 'white',
+    fontSize: 16,
+    fontWeight: "600"
+  }
+})
