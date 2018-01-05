@@ -19,7 +19,6 @@ export default function reducer(state = initialState, action = {})
             }
             return characterSecured
         })
-        console.log(processedList)
         return {
             ...state,
             list: processedList
@@ -27,7 +26,7 @@ export default function reducer(state = initialState, action = {})
     case types.CHARACTERS_UPDATE_SELECTED_ITEM:
         return {
             ...state,
-            item: action.value
+            item: action.character
         }
     case types.CHARACTERS_SET_FETCHING:
         return {

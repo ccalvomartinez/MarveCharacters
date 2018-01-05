@@ -5,11 +5,13 @@
  */
 
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { StatusBar, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native'
 import { Actions, Scene, Router } from 'react-native-router-flux';
 
 import CharactersList from 'marvel_characters/src/sections/characters/CharactersList'
 import CharacterView from 'marvel_characters/src/sections/characters/CharacterView'
+
+import { Colors, Fonts } from 'marvel_characters/src/commons'
 
 //Redux
 // **************************************************
@@ -42,8 +44,14 @@ export default class App extends Component {
               key={ "CharactersList" }
               component={ CharactersList }
               navigationBarStyle={styles.navBar}
-              navBarButtonColor={'white'}
-              
+              navBarButtonColor={ Colors.ACCENT_COLOR }
+              title={ 'Characters list' }
+              />
+               <Scene
+              key={ "CharacterView" }
+              component={ CharacterView }
+              navigationBarStyle={styles.navBar}
+              navBarButtonColor={ Colors.ACCENT_COLOR }
               />
           </Scene>
         </Router>
@@ -54,7 +62,16 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'rgb(36,36,36)'
+    backgroundColor: Colors.PRIMARY_COLOR,
+    color: Colors.ACCENT_COLOR,
+    ...Platform.select({
+        ios: {
+            fontFamily: Fonts.IOS_FONT, 
+        },
+        android: {
+            fontFamily: Fonts.ANDROID_FONT,
+        }
+    })
   },
   addButton:{
     padding: 10,

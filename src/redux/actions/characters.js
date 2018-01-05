@@ -32,3 +32,10 @@ export function fetchCharactersList() {
         
     }
 }
+
+export function updateSelectedCharacter(character) {
+    return {
+        type: types.CHARACTERS_UPDATE_SELECTED_ITEM,
+        character
+    }
+}

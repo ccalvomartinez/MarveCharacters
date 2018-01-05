@@ -13,10 +13,14 @@ class CharactersList extends Component {
             this.props.fetchCharactersList()
     }
 
+    onSelect(character) {
+        this.props.updateSelectedCharacter(character)
+    }
     renderItem(item) {
         return (
             <CharacterCell 
                 item={item}
+                onSelect={(item) => { this.onSelect(item) } }
             />
         )
     }
@@ -56,6 +60,10 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchCharactersList: () => {
             dispatch(CharactersActions.fetchCharactersList())
+        },
+        updateSelectedCharacter: (character) => {
+            dispatch(CharactersActions.updateSelectedCharacter(character))
+            Actions.CharacterView()
         }
     }
 }
