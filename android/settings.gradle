@@ -1,0 +1,3 @@
+rootProject.name = 'marvel_characters'
+
+include ':app'
