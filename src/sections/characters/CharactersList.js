@@ -23,16 +23,24 @@ class CharactersList extends Component {
 
     render() {
         const { list, isFetching} = this.props
-        return( 
-            <View style={styles.container}>
-                <FlatList 
-                    data={ this.props.list }
-                    keyExtractor={ (item) => { return item.id } }
-                    renderItem={ ({ item }) => this.renderItem(item) }
-                    numColumns={ 2 }
-                    />
-            </View>
-        )
+        if (isFetching) {
+            return(
+                <View style={styles.containerActivityIndicator}>
+                    <ActivityIndicator size="large" color={ Colors.ACCENT_COLOR } animating={ this.props.isFetching } hidesWhenStopped={true} />
+                </View>
+            )
+        } else {
+            return( 
+                <View style={styles.container}>
+                    <FlatList 
+                        data={ this.props.list }
+                        keyExtractor={ (item) => { return item.id } }
+                        renderItem={ ({ item }) => this.renderItem(item) }
+                        numColumns={ 2 }
+                        />
+                </View>
+            )
+        }
     }
 }
 
@@ -56,6 +64,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(CharactersList)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.PRIMARY_COLOR
+    },
+    containerActivityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: Colors.PRIMARY_COLOR
     },
 })

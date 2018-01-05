@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Image, StyleSheet, View, Text, Dimensions, Platform } from 'react-native'
 
-import * as Colors from 'marvel_characters/src/commons/Colors'
+import { Colors, Fonts } from 'marvel_characters/src/commons'
 
 export default class CharacterCell extends Component {
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         padding: 10,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(0,0,0,0.7)',
         alignItems: 'center',
         position: 'absolute',
         bottom: 0,
@@ -54,7 +54,15 @@ const styles = StyleSheet.create({
     name:{
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'red'
+        color: Colors.ACCENT_COLOR,
+        ...Platform.select({
+            ios: {
+                fontFamily: Fonts.IOS_FONT, 
+            },
+            android: {
+                fontFamily: Fonts.ANDROID_FONT,
+            }
+        })
     },
     image:{
         width: '100%',
