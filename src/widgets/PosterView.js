@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList,  StyleSheet,  ActivityIndicator, Platform, Image } from 'react-native'
-
+import Spinner from 'react-native-spinkit'
 
 import { Actions } from 'react-native-router-flux'
 
@@ -28,29 +28,24 @@ export default class PosterView extends Component {
 
     render() {
         const { list, isFetching} = this.props
-      
-            return(
+             return(
                 <View style={styles.container}>
-                    
+                    <View style={ styles.labelContainer }>
+                        <Text style={ styles.label }>
+                            { this.props.label }
+                        </Text>
+                    </View> 
                     {isFetching ?
                         <View style={styles.containerActivityIndicator}>
-                        <ActivityIndicator size="large" color={ Colors.ACCENT_COLOR } animating={ this.props.isFetching } hidesWhenStopped={true} />
+                             <Spinner size={ 40 } color={ Colors.ACCENT_COLOR } isVisible={ isFetching } type={ 'ThreeBounce' } />
                         </View>
                     :
-                        <View>
-                            <View style={ styles.labelContainer }>
-                                <Text style={ styles.label }>
-                                    { this.props.label }
-                                </Text>
-                            </View>
-                                  <FlatList 
-                                    data={ this.props.list }
-                                    horizontal
-                                    keyExtractor={ (item) => { return item.id } }
-                                    renderItem={ ({ item }) => this.renderItem(item) }
-                                />
-                           
-                        </View>
+                    <FlatList 
+                        data={ this.props.list }
+                        horizontal
+                        keyExtractor={ (item) => { return item.id } }
+                        renderItem={ ({ item }) => this.renderItem(item) }
+                    />
                     }
                 </View>
             )
@@ -68,6 +63,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        height: 75,
         backgroundColor: Colors.PRIMARY_COLOR
     },
     cellContainer:{

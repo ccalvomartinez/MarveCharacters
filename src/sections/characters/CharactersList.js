@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList,  StyleSheet,  ActivityIndicator, TextInput, TouchableOpacity } from 'react-native'
 import { SearchBar } from 'react-native-elements'
-
+import Spinner from 'react-native-spinkit'
 
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
@@ -33,8 +33,6 @@ class CharactersList extends Component {
     }
 
     render() {
-        const { list, isFetching} = this.props
-      
             return(
                 <View style={styles.container}>
                     <SearchBar
@@ -44,9 +42,9 @@ class CharactersList extends Component {
                     placeholder='Search' 
                     value={ this.props.searchedText }/>
                     
-                    {isFetching ?
+                    {this.props.isFetching ?
                         <View style={styles.containerActivityIndicator}>
-                        <ActivityIndicator size="large" color={ Colors.ACCENT_COLOR } animating={ this.props.isFetching } hidesWhenStopped={true} />
+                        <Spinner size={ 75 } color={ Colors.ACCENT_COLOR } isVisible={ this.props.isFetching } type={ 'ChasingDots' } />
                         </View>
                     :
                         <FlatList 

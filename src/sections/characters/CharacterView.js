@@ -61,8 +61,6 @@ const mapStateToProps = (state) => {
             isFetchingComics: state.comics.isFetching,
             seriesList: state.series.list,
             isFetchingSeries: state.series.isFetching,
-            storiesList: state.stories.list,
-            isFetchingStories: state.stories.isFetching
         }
     }
     
