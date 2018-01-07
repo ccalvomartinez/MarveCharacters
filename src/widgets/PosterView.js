@@ -21,35 +21,34 @@ export default class PosterView extends Component {
       
         return (
             <View style={styles.cellContainer}>
-            <Image style={ styles.image } source={ image } resizeMode={'cover'}/>
-        </View>
+                <Image style={ styles.image } source={ image } resizeMode={ 'cover' }/>
+            </View>
         )
     }
 
     render() {
-        const { list, isFetching} = this.props
-             return(
-                <View style={styles.container}>
-                    <View style={ styles.labelContainer }>
-                        <Text style={ styles.label }>
-                            { this.props.label }
-                        </Text>
-                    </View> 
-                    {isFetching ?
-                        <View style={styles.containerActivityIndicator}>
-                             <Spinner size={ 40 } color={ Colors.ACCENT_COLOR } isVisible={ isFetching } type={ 'ThreeBounce' } />
-                        </View>
-                    :
+        const { list, label, isFetching } = this.props
+        return(
+            <View style={ styles.container }>
+                <View style={ styles.labelContainer }>
+                    <Text style={ styles.label }>
+                        { label }
+                    </Text>
+                </View> 
+                { isFetching ?
+                    <View style={styles.containerActivityIndicator}>
+                            <Spinner size={ 40 } color={ Colors.ACCENT_COLOR } isVisible={ isFetching } type={ 'ThreeBounce' } />
+                    </View>
+                :
                     <FlatList 
-                        data={ this.props.list }
+                        data={ list }
                         horizontal
                         keyExtractor={ (item) => { return item.id } }
                         renderItem={ ({ item }) => this.renderItem(item) }
                     />
-                    }
-                </View>
-            )
-        
+                }
+            </View>
+        )
     }
 }
 

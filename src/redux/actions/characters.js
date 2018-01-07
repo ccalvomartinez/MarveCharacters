@@ -29,6 +29,7 @@ export function fetchCharactersList(searchText) {
         dispatch(setCharactersFetching(true))
 
         const fetchURL = 'characters'
+        
         fetch(fetchURL, searchText)
         .then((data) => {
             dispatch(setCharactersFetching(false))

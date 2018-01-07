@@ -9,13 +9,14 @@ export default class CharacterCell extends Component {
         onSelect: () => {},
         item: {},
      }
+
     render() {
         const { item, onSelect } = this.props
         const image = item.thumbnail ? { uri: item.thumbnail.path +'.' + item.thumbnail.extension } : require('marvel_characters/src/resources/image_not_available.jpg')
         const name = item.name ? item.name : ''
-         return (
-            <TouchableOpacity style={styles.container}  onPress={ () => { onSelect(item) } }>
-                <Image style={ styles.image } source={ image } resizeMode={'cover'}/>
+        return (
+            <TouchableOpacity style={ styles.container }  onPress={ () => { onSelect(item) } }>
+                <Image style={ styles.image } source={ image } resizeMode={ 'cover' }/>
                 <View style={ styles.textContainer }>
                     <Text style={ styles.name }> { name }</Text>
                 </View>
@@ -28,11 +29,11 @@ export default class CharacterCell extends Component {
 const styles = StyleSheet.create({
     container:{
         margin: 10,
-        width: Dimensions.get('window').width / 2 - 20, //proporción de las imágenes: 857/600,
+        width: Dimensions.get('window').width / 2 - 20,
         height: (Dimensions.get('window').width / 2 - 20) * (857/600),
         ...Platform.select({
             ios: {
-                shadowColor: 'rgba(255,255,255,0.1)',
+                shadowColor: Colors.SHADOW_COLOR,
                 shadowOpacity: 1,
                 shadowOffset: { height: 4, width: 4 },
                 shadowRadius: 2,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         padding: 10,
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: Colors.CELL_NAME_COLOR,
         alignItems: 'center',
         position: 'absolute',
         bottom: 0,

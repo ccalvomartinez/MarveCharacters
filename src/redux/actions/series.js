@@ -8,7 +8,6 @@ function setSeriesFetching(value) {
     }
 }
 
-
 function updateSeriesList(value) {
     return {
         type: types.SERIES_FETCH_LIST,
@@ -20,7 +19,9 @@ export function fetchSeriesList(character) {
     return (dispatch, getState) => {
 
         dispatch(setSeriesFetching(true))
+       
         const fetchURL = 'characters/' + character.id + '/series'
+       
         fetch(fetchURL)
         .then((data) => {
             dispatch(setSeriesFetching(false))

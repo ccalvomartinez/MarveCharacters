@@ -23,6 +23,7 @@ class CharactersList extends Component {
     onSearch(text) {
         this.props.fetchCharactersList(text)
     }
+
     renderItem(item) {
         return (
             <CharacterCell 
@@ -33,35 +34,35 @@ class CharactersList extends Component {
     }
 
     render() {
-            return(
-                <View style={styles.container}>
-                    <SearchBar
+        return(
+            <View style={ styles.container }>
+                <SearchBar
                     noIcon
-                    onChangeText={(text) => { this.onSearch(text) }}
+                    onChangeText={ (text) => { this.onSearch(text) } }
                     onClearText={() => {}}
                     placeholder='Search' 
-                    value={ this.props.searchedText }/>
-                    
-                    {this.props.isFetching ?
-                        <View style={styles.containerActivityIndicator}>
+                    value={ this.props.searchedText }
+                />
+                
+                { this.props.isFetching ?
+                    <View style={ styles.containerActivityIndicator }>
                         <Spinner size={ 75 } color={ Colors.ACCENT_COLOR } isVisible={ this.props.isFetching } type={ 'ChasingDots' } />
-                        </View>
-                    :
-                        <FlatList 
-                            data={ this.props.list }
-                            keyExtractor={ (item) => { return item.id } }
-                            renderItem={ ({ item }) => this.renderItem(item) }
-                            numColumns={ 2 }
-                        />
-                    }
-                </View>
-            )
+                    </View>
+                :
+                    <FlatList 
+                        data={ this.props.list }
+                        keyExtractor={ (item) => { return item.id } }
+                        renderItem={ ({ item }) => this.renderItem(item) }
+                        numColumns={ 2 }
+                    />
+                }
+            </View>
+        )
         
     }
 }
 
 const mapStateToProps = (state) => {
-
     return {
         list: state.characters.list,
         isFetching: state.characters.isFetching,
@@ -76,7 +77,7 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         updateSelectedCharacter: (character) => {
             dispatch(CharactersActions.updateSelectedCharacter(character))
-            Actions.CharacterView()
+            Actions.CharacterView({ title: "Character list" })
         }
     }
 }

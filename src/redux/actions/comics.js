@@ -8,7 +8,6 @@ function setComicsFetching(value) {
     }
 }
 
-
 function updateComicsList(value) {
     return {
         type: types.COMICS_FETCH_LIST,
@@ -20,7 +19,9 @@ export function fetchComicsList(character) {
     return (dispatch, getState) => {
 
         dispatch(setComicsFetching(true))
+
         const fetchURL = 'characters/' + character.id + '/comics'
+        
         fetch(fetchURL)
         .then((data) => {
             dispatch(setComicsFetching(false))

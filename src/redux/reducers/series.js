@@ -5,13 +5,13 @@ const initialState = {
     list: [],
 }
 
-
 export default function reducer(state = initialState, action = {})
 {
     switch (action.type) {
     case types.SERIES_FETCH_LIST:
         let processedList = []
         if (Array.isArray(action.value)) {
+
             processedList = action.value.map(function(serie) {
                 const serieSecured = serie
                 serieSecured.thumbnail.path = serie.thumbnail.path.replace('http', 'https')
@@ -20,6 +20,7 @@ export default function reducer(state = initialState, action = {})
                 }
                 return serieSecured
             })
+            
         }
         return {
             ...state,

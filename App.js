@@ -40,19 +40,19 @@ export default class App extends Component {
       <Provider store={ store }>
         <Router>
           <Scene key="root">
-              <Scene
+            <Scene
               key={ "CharactersList" }
               component={ CharactersList }
               navigationBarStyle={styles.navBar}
               navBarButtonColor={ Colors.ACCENT_COLOR }
               title={ 'Characters list' }
-              />
-               <Scene
+            />
+            <Scene
               key={ "CharacterView" }
               component={ CharacterView }
               navigationBarStyle={styles.navBar}
               navBarButtonColor={ Colors.ACCENT_COLOR }
-              />
+            />
           </Scene>
         </Router>
       </Provider>
@@ -64,15 +64,5 @@ const styles = StyleSheet.create({
   navBar: {
     backgroundColor: Colors.PRIMARY_COLOR,
     
-  },
-  addButton:{
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  addButtonText:{
-    color: 'white',
-    fontSize: 16,
-    fontWeight: "600"
   }
 })
