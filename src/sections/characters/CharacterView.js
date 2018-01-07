@@ -8,14 +8,12 @@ import { Colors, Fonts } from 'marvel_characters/src/commons'
 import PosterView from '../../widgets/PosterView'
 import * as ComicsActions from 'marvel_characters/src/redux/actions/comics'
 import * as SeriesActions from 'marvel_characters/src/redux/actions/series'
-import * as StoriesActions from 'marvel_characters/src/redux/actions/stories'
 
 class CharacterView extends Component {
     
-    componentWillMount() {
-        this.props.fetchComicsList(this.props.character)
+    componentDidMount() {
+         this.props.fetchComicsList(this.props.character)
         this.props.fetchSeriesList(this.props.character)
-        this.props.fetchStoriesList(this.props.character)
     }
 
     render() {
@@ -23,7 +21,7 @@ class CharacterView extends Component {
         const image = character.thumbnail ? { uri: character.thumbnail.path +'.' + character.thumbnail.extension } : require('marvel_characters/src/resources/image_not_available.jpg')
         const name = character.name ? character.name : ''
         const description = character.description ? character.description : ''
-        
+    
         return (
         <View style={ styles.container } >
         <ScrollView>
@@ -35,30 +33,20 @@ class CharacterView extends Component {
             <View style={ styles.descriptionContainer }>
                 <Text style={ styles.description }> { description }</Text>
             </View> : null}
-           <PosterView
-                list= {this.props.list}
-                character = { this.props.character }
-                label={ 'Series' }
-            />
+             { character.comics.available > 0 ?
              <PosterView
                 list= {this.props.comicList}
                 character = { this.props.character }
                 isFetching = { this.props.isFetchingComics }
                 label={ 'Comics' }
-            />
+            /> : null}
 
-            <PosterView
+            {character.series.available > 0 ? <PosterView
                 list= {this.props.seriesList}
                 character = { this.props.character }
                 isFetching = { this.props.isFetchingSeries }
                 label={ 'Series' }
-            />
-             <PosterView
-                list= {this.props.storiesList}
-                character = { this.props.character }
-                isFetching = { this.props.isFetchingStories }
-                label={ 'Stories' }
-            />
+            />: null}
             </ScrollView>
         </View>
         )
@@ -80,9 +68,12 @@ const mapStateToProps = (state) => {
     
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchComicsList: (character) => { ComicsActions.fetchComicsList(character) },
-        fetchSeriesList: (character) => { SeriesActions.fetchSeriesList(character) },
-        fetchStoriesList: (character) => { StoriesActions.fetchStoriesList(character) }
+        fetchComicsList: (character) => { 
+            dispatch(ComicsActions.fetchComicsList(character))
+         },
+        fetchSeriesList: (character) => { 
+            dispatch(SeriesActions.fetchSeriesList(character)) 
+        },
     }
 }
 
@@ -91,17 +82,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(CharacterView)
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: 'rgb(42,42,42)'
+            backgroundColor: Colors.PRIMARY_COLOR
         },
         nameContainer: {
             alignItems: 'center',
             padding: 20,
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            backgroundColor: Colors.BACKGROUND_TITLE_COLOR,
             
         },
         descriptionContainer: {
            
-            backgroundColor: 'rgba(255,255,255,0.1)',
+            backgroundColor: Colors.BACKGROUND_SECTION_COLOR,
             borderRadius: 6,
             padding: 20
             

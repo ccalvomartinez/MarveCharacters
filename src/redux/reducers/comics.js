@@ -9,26 +9,28 @@ const initialState = {
 export default function reducer(state = initialState, action = {})
 {
     switch (action.type) {
-    case types.COMICS_FETCH_LIST:
-        const processedList = action.value.map(function(character) {
-            const comicSecured = character
-            comicSecured.thumbnail.path = character.thumbnail.path.replace('http', 'https')
-            if (comicSecured.thumbnail.path.indexOf("image_not_available") > 0) {
-                comicSecured.thumbnail = null
+        case types.COMICS_FETCH_LIST:
+            const processedList = action.value.map(function(comic) {
+                const comicSecured = comic
+                if (comic.images.length > 0) {
+                    comicSecured.thumbnail.path = comic.images[0].path.replace('http', 'https')
+                    if (comicSecured.thumbnail.path.indexOf("image_not_available") > 0) {
+                        comicSecured.thumbnail = null
+                    }
+                }
+                return comicSecured
+            })
+            return {
+                ...state,
+                list: processedList
             }
-            return comicSecured
-        })
-        return {
-            ...state,
-            list: processedList
-        }
-    case types.COMICS_SET_FETCHING:
-        return {
-            ...state,
-            isFetching: action.value
-        }
-    default:
-        return state
+        case types.COMICS_SET_FETCHING:
+            return {
+                ...state,
+                isFetching: action.value
+            }
+        default:
+            return state
     }
 
 }

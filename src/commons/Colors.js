@@ -1,3 +1,5 @@
 export const PRIMARY_COLOR = 'rgb(42,42,42)'
 export const SECONDARY_COLOR = 'rgb(36,36,36)'
 export const ACCENT_COLOR = 'red'
+export const BACKGROUND_TITLE_COLOR = 'rgba(0,0,0,0.5)'
+export const BACKGROUND_SECTION_COLOR = 'rgba(255,255,255,0.1)'
